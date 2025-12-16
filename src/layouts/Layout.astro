@@ -30,9 +30,11 @@ const {
   scrollSmooth = false,
 } = Astro.props;
 
-const keywordsContent = Array.isArray(keywords)
-  ? keywords.join(", ")
-  : keywords;
+const keywordsContent: string | undefined = keywords
+  ? Array.isArray(keywords)
+    ? keywords.join(", ")
+    : keywords
+  : undefined;
 
 const socialImageURL = new URL(ogImage, Astro.url);
 
