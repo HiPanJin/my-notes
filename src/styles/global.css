@@ -65,7 +65,11 @@ html[data-theme="dark"] {
       linear-gradient(90deg, rgb(120 90 45 / 0.035) 1px, transparent 1px),
       linear-gradient(180deg, rgb(120 90 45 / 0.03) 1px, transparent 1px),
       var(--background);
-    background-size: auto, 34px 34px, 34px 34px, auto;
+    background-size:
+      auto,
+      34px 34px,
+      34px 34px,
+      auto;
     font-family: var(--font-hand);
   }
   a,

@@ -25,4 +25,4 @@ if (!resources.resources.some(resource => resource.uri === "posts://all")) {
 }
 
 await client.close();
-console.log("MCP smoke test passed");
+process.stdout.write("MCP smoke test passed\n");
