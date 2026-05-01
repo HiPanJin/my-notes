@@ -19,6 +19,10 @@ pnpm build
 pnpm preview
 ```
 
+## AI / MCP
+This blog includes a local MCP server for AI-assisted drafting and revision.
+See `docs/mcp.md`.
+
 ## Contact
 Email: i@panjin.me  
 X: https://x.com/Jindevweb
