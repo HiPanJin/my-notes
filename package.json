@@ -10,21 +10,30 @@
     "astro": "astro",
     "format:check": "prettier --check .",
     "format": "prettier --write .",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "mcp:blog": "tsx mcp/server.ts",
+    "mcp:smoke": "tsx mcp/smoke.ts"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.14",
     "@astrojs/sitemap": "^3.6.0",
+    "@fontsource-variable/caveat": "^5.2.8",
+    "@fontsource/kalam": "^5.2.8",
+    "@modelcontextprotocol/sdk": "^1.29.0",
     "@resvg/resvg-js": "^2.6.2",
     "@tailwindcss/vite": "^4.1.11",
     "astro": "^5.16.5",
     "dayjs": "^1.11.13",
+    "gray-matter": "^4.0.3",
     "lodash.kebabcase": "^4.1.1",
     "remark-collapse": "^0.1.2",
     "remark-toc": "^9.0.0",
     "satori": "^0.15.2",
     "sharp": "^0.34.2",
-    "tailwindcss": "^4.1.11"
+    "tailwindcss": "^4.1.11",
+    "zod": "^4.4.1"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.6",
@@ -40,7 +49,9 @@
     "prettier": "^3.6.2",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.6.13",
+    "tsx": "^4.21.0",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.36.0"
+    "typescript-eslint": "^8.36.0",
+    "vitest": "^4.1.5"
   }
 }
