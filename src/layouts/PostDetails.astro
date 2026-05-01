@@ -94,74 +94,75 @@ const nextPost =
     ]}
     data-pagefind-body
   >
-    <h1
-      transition:name={slugifyStr(title)}
-      class="inline-block text-2xl font-bold text-accent sm:text-3xl"
+    <div
+      class="paper-sheet rounded-sm border border-border/70 px-5 py-8 sm:px-10 sm:py-12"
     >
-      {title}
-    </h1>
-    <div class="my-2 flex items-center gap-2">
-      <Datetime {pubDatetime} {modDatetime} {timezone} size="lg" />
-      <span
-        aria-hidden="true"
-        class:list={[
-          "max-sm:hidden",
-          { hidden: !SITE.editPost.enabled || hideEditPost },
-        ]}>|</span
+      <h1
+        transition:name={slugifyStr(title)}
+        class="manuscript-title inline-block text-4xl leading-none text-accent sm:text-5xl"
       >
-      <EditPost {hideEditPost} {post} class="max-sm:hidden" />
-    </div>
-    <article
-      id="article"
-      class="app-prose mx-auto mt-8 max-w-app prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)"
-    >
-      <Content />
-    </article>
+        {title}
+      </h1>
+      <div class="my-3 flex flex-wrap items-center gap-2 text-ink-soft">
+        <Datetime {pubDatetime} {modDatetime} {timezone} size="lg" />
+        <span
+          aria-hidden="true"
+          class:list={[
+            "max-sm:hidden",
+            { hidden: !SITE.editPost.enabled || hideEditPost },
+          ]}>/</span
+        >
+        <EditPost {hideEditPost} {post} class="max-sm:hidden" />
+      </div>
+      <article id="article" class="app-prose mx-auto mt-8 max-w-app">
+        <Content />
+      </article>
 
-    <hr class="my-8 border-dashed" />
+      <hr class="my-8 border-t border-dashed border-border/80" />
 
-    <EditPost class="sm:hidden" {hideEditPost} {post} />
+      <EditPost class="sm:hidden" {hideEditPost} {post} />
 
-    <ul class="mt-4 mb-8 sm:my-8">
-      {tags.map(tag => <Tag tag={slugifyStr(tag)} tagName={tag} />)}
-    </ul>
+      <ul class="mt-4 mb-8 sm:my-8">
+        {tags.map(tag => <Tag tag={slugifyStr(tag)} tagName={tag} />)}
+      </ul>
 
-    <BackToTopButton />
+      <BackToTopButton />
 
-    <ShareLinks />
+      <ShareLinks />
 
-    <hr class="my-6 border-dashed" />
+      <hr class="my-6 border-t border-dashed border-border/80" />
 
-    <!-- Previous/Next Post Buttons -->
-    <div data-pagefind-ignore class="grid grid-cols-1 gap-6 sm:grid-cols-2">
-      {
-        prevPost && (
-          <a
-            href={getPath(prevPost.id, prevPost.filePath)}
-            class="flex w-full gap-1 hover:opacity-75"
-          >
-            <IconChevronLeft class="inline-block flex-none rtl:rotate-180" />
-            <div>
-              <span>Previous Post</span>
-              <div class="text-sm text-accent/85">{prevPost.title}</div>
-            </div>
-          </a>
-        )
-      }
-      {
-        nextPost && (
-          <a
-            href={getPath(nextPost.id, nextPost.filePath)}
-            class="flex w-full justify-end gap-1 text-end hover:opacity-75 sm:col-start-2"
-          >
-            <div>
-              <span>Next Post</span>
-              <div class="text-sm text-accent/85">{nextPost.title}</div>
-            </div>
-            <IconChevronRight class="inline-block flex-none rtl:rotate-180" />
-          </a>
-        )
-      }
+      <!-- Previous/Next Post Buttons -->
+      <div data-pagefind-ignore class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+        {
+          prevPost && (
+            <a
+              href={getPath(prevPost.id, prevPost.filePath)}
+              class="flex w-full gap-1 text-ink-soft transition hover:-translate-x-1 hover:text-accent"
+            >
+              <IconChevronLeft class="inline-block flex-none rtl:rotate-180" />
+              <div>
+                <span>Previous Post</span>
+                <div class="text-sm text-accent/85">{prevPost.title}</div>
+              </div>
+            </a>
+          )
+        }
+        {
+          nextPost && (
+            <a
+              href={getPath(nextPost.id, nextPost.filePath)}
+              class="flex w-full justify-end gap-1 text-end text-ink-soft transition hover:translate-x-1 hover:text-accent sm:col-start-2"
+            >
+              <div>
+                <span>Next Post</span>
+                <div class="text-sm text-accent/85">{nextPost.title}</div>
+              </div>
+              <IconChevronRight class="inline-block flex-none rtl:rotate-180" />
+            </a>
+          )
+        }
+      </div>
     </div>
   </main>
   <Footer />
@@ -219,7 +220,7 @@ const nextPost =
       heading.classList.add("group");
       const link = document.createElement("a");
       link.className =
-        "heading-link ms-2 no-underline opacity-75 md:opacity-0 md:group-hover:opacity-100 md:focus:opacity-100";
+        "heading-link ms-2 no-underline opacity-0 transition group-hover:opacity-75 focus:opacity-100";
       link.href = "#" + heading.id;
 
       const span = document.createElement("span");
