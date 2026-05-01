@@ -4,6 +4,9 @@
   /* ===== Override default Tailwind Typography styles ===== */
   .app-prose {
     @apply prose;
+    font-family: var(--font-hand);
+    font-size: 1.08rem;
+    line-height: 1.85;
 
     h1,
     h2,
@@ -11,10 +14,12 @@
     h4,
     th {
       @apply mb-3 text-foreground;
+      font-family: var(--font-display);
+      letter-spacing: 0;
     }
 
     h3 {
-      @apply italic;
+      @apply not-italic;
     }
 
     p,
@@ -68,6 +73,9 @@
 
     code {
       @apply rounded bg-muted/75 p-1 break-words text-foreground before:content-none after:content-none;
+      font-family:
+        ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+        "Courier New", monospace;
     }
 
     .astro-code code {
@@ -75,7 +83,20 @@
     }
 
     blockquote {
-      @apply border-s-accent/80 break-words opacity-80;
+      @apply border-s-accent/80 break-words bg-paper-deep/40 px-4 py-2 opacity-90;
+    }
+
+    del {
+      color: var(--ink-soft);
+      text-decoration-color: var(--revision);
+      text-decoration-line: line-through;
+      text-decoration-skip-ink: none;
+      text-decoration-thickness: 0.14em;
+    }
+
+    del + br,
+    del + p {
+      margin-top: 0.25rem;
     }
 
     details {
@@ -93,11 +114,11 @@
 
   /* ===== Code Blocks & Syntax Highlighting ===== */
   .astro-code {
-    @apply flex border bg-(--shiki-light-bg) text-(--shiki-light) outline-border [&_span]:text-(--shiki-light);
+    @apply flex border bg-paper-deep/70 text-(--shiki-light) outline-border [&_span]:text-(--shiki-light);
   }
 
   html[data-theme="dark"] .astro-code {
-    @apply bg-(--shiki-dark-bg) text-(--shiki-dark) [&_span]:text-(--shiki-dark);
+    @apply bg-paper-deep text-(--shiki-dark) [&_span]:text-(--shiki-dark);
   }
 
   /* Styles for Shiki transformers */
@@ -110,7 +131,7 @@
       @apply relative inline-block w-full bg-red-500/20 before:absolute before:-left-3 before:text-red-500 before:content-['-'];
     }
     .line.highlighted {
-      @apply inline-block w-full bg-slate-400/20;
+      @apply inline-block w-full bg-muted/60;
     }
     .highlighted-word {
       @apply rounded-sm border border-border px-0.5 py-px;
