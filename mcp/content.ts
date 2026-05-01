@@ -11,8 +11,8 @@ const FrontmatterPatchSchema = z
     title: z.string().min(1).optional(),
     description: z.string().min(1).optional(),
     tags: z.array(z.string().min(1)).optional(),
-    pubDatetime: z.string().datetime().optional(),
-    modDatetime: z.string().datetime().nullable().optional(),
+    pubDatetime: z.iso.datetime().optional(),
+    modDatetime: z.iso.datetime().nullable().optional(),
     featured: z.boolean().optional(),
     draft: z.boolean().optional(),
   })

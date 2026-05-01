@@ -14,39 +14,59 @@ const server = new McpServer({
   version: "0.1.0",
 });
 
-server.resource("site-config", "site://config", async uri => ({
-  contents: [
-    {
-      uri: uri.href,
-      mimeType: "application/json",
-      text: JSON.stringify(
-        {
-          title: SITE.title,
-          author: SITE.author,
-          website: SITE.website,
-          language: SITE.lang,
-          blogPath: "src/data/blog",
-        },
-        null,
-        2
-      ),
-    },
-  ],
-}));
+server.registerResource(
+  "site-config",
+  "site://config",
+  {
+    title: "Site config",
+    mimeType: "application/json",
+  },
+  async uri => ({
+    contents: [
+      {
+        uri: uri.href,
+        mimeType: "application/json",
+        text: JSON.stringify(
+          {
+            title: SITE.title,
+            author: SITE.author,
+            website: SITE.website,
+            language: SITE.lang,
+            blogPath: "src/data/blog",
+          },
+          null,
+          2
+        ),
+      },
+    ],
+  })
+);
 
-server.resource("all-posts", "posts://all", async uri => ({
-  contents: [
-    {
-      uri: uri.href,
-      mimeType: "application/json",
-      text: JSON.stringify(await store.listPosts(), null, 2),
-    },
-  ],
-}));
+server.registerResource(
+  "all-posts",
+  "posts://all",
+  {
+    title: "All posts",
+    mimeType: "application/json",
+  },
+  async uri => ({
+    contents: [
+      {
+        uri: uri.href,
+        mimeType: "application/json",
+        text: JSON.stringify(await store.listPosts(), null, 2),
+      },
+    ],
+  })
+);
 
-server.resource(
+server.registerResource(
   "post-by-slug",
   new ResourceTemplate("posts://slug/{slug}", { list: undefined }),
+  {
+    title: "Post by slug",
+    mimeType: "text/markdown",
+  },
   async (uri, { slug }) => ({
     contents: [
       {
@@ -58,30 +78,37 @@ server.resource(
   })
 );
 
-server.tool("list_posts", "List blog post metadata", {}, async () => ({
+server.registerTool("list_posts", {
+  description: "List blog post metadata",
+  inputSchema: {},
+}, async () => ({
   content: [
     { type: "text", text: JSON.stringify(await store.listPosts(), null, 2) },
   ],
 }));
 
-server.tool(
+server.registerTool(
   "read_post",
-  "Read a Markdown blog post by slug",
-  { slug: z.string() },
+  {
+    description: "Read a Markdown blog post by slug",
+    inputSchema: { slug: z.string() },
+  },
   async ({ slug }) => ({
     content: [{ type: "text", text: await store.readPost(slug) }],
   })
 );
 
-server.tool(
+server.registerTool(
   "create_draft",
-  "Create a draft Markdown post",
   {
-    title: z.string().min(1),
-    description: z.string().min(1),
-    tags: z.array(z.string()).optional(),
-    body: z.string().optional(),
-    slug: z.string().optional(),
+    description: "Create a draft Markdown post",
+    inputSchema: {
+      title: z.string().min(1),
+      description: z.string().min(1),
+      tags: z.array(z.string()).optional(),
+      body: z.string().optional(),
+      slug: z.string().optional(),
+    },
   },
   async input => ({
     content: [
@@ -93,13 +120,16 @@ server.tool(
   })
 );
 
-server.tool(
+server.registerTool(
   "append_revision",
-  "Replace one exact old sentence with struck-through old text and new text below it",
   {
-    slug: z.string(),
-    oldText: z.string().min(1),
-    newText: z.string().min(1),
+    description:
+      "Replace one exact old sentence with struck-through old text and new text below it",
+    inputSchema: {
+      slug: z.string(),
+      oldText: z.string().min(1),
+      newText: z.string().min(1),
+    },
   },
   async input => {
     await store.appendRevision(input);
@@ -107,20 +137,22 @@ server.tool(
   }
 );
 
-server.tool(
+server.registerTool(
   "update_frontmatter",
-  "Update safe frontmatter fields",
   {
-    slug: z.string(),
-    patch: z.object({
-      title: z.string().min(1).optional(),
-      description: z.string().min(1).optional(),
-      tags: z.array(z.string().min(1)).optional(),
-      pubDatetime: z.string().datetime().optional(),
-      modDatetime: z.string().datetime().nullable().optional(),
-      featured: z.boolean().optional(),
-      draft: z.boolean().optional(),
-    }),
+    description: "Update safe frontmatter fields",
+    inputSchema: {
+      slug: z.string(),
+      patch: z.object({
+        title: z.string().min(1).optional(),
+        description: z.string().min(1).optional(),
+        tags: z.array(z.string().min(1)).optional(),
+        pubDatetime: z.iso.datetime().optional(),
+        modDatetime: z.iso.datetime().nullable().optional(),
+        featured: z.boolean().optional(),
+        draft: z.boolean().optional(),
+      }),
+    },
   },
   async input => {
     await store.updateFrontmatter(input);
@@ -128,12 +160,15 @@ server.tool(
   }
 );
 
-server.prompt(
+server.registerPrompt(
   "revise_with_strikethrough",
-  "Rewrite text while keeping the previous version visible as strikethrough",
   {
-    oldText: z.string(),
-    newText: z.string(),
+    description:
+      "Rewrite text while keeping the previous version visible as strikethrough",
+    argsSchema: {
+      oldText: z.string(),
+      newText: z.string(),
+    },
   },
   ({ oldText, newText }) => ({
     messages: [
@@ -148,12 +183,14 @@ server.prompt(
   })
 );
 
-server.prompt(
+server.registerPrompt(
   "draft_blog_post",
-  "Draft a blog post in Jin Pan's learning-in-public style",
   {
-    topic: z.string(),
-    notes: z.string().optional(),
+    description: "Draft a blog post in Jin Pan's learning-in-public style",
+    argsSchema: {
+      topic: z.string(),
+      notes: z.string().optional(),
+    },
   },
   ({ topic, notes }) => ({
     messages: [
@@ -168,10 +205,12 @@ server.prompt(
   })
 );
 
-server.prompt(
+server.registerPrompt(
   "summarize_post",
-  "Summarize a post for AI context",
-  { markdown: z.string() },
+  {
+    description: "Summarize a post for AI context",
+    argsSchema: { markdown: z.string() },
+  },
   ({ markdown }) => ({
     messages: [
       {
