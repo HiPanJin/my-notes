@@ -18,10 +18,10 @@
   font-style: normal;
   font-weight: 400;
   src:
-    local("Xingkai SC Light"), local("STXingkaiSC-Light"),
-    local("行楷-简 细体"), local("Kaiti SC Regular"),
-    local("STKaitiSC-Regular"), local("楷体-简 常规体"), local("STKaiti"),
-    local("华文楷体");
+    local("Kaiti SC Regular"), local("STKaitiSC-Regular"),
+    local("楷体-简 常规体"), local("STKaiti"), local("华文楷体"),
+    local("Xingkai SC Regular"), local("STXingkaiSC-Regular"),
+    local("行楷-简 常规体");
   unicode-range:
     U+2E80-2EFF, U+3000-303F, U+31C0-31EF, U+3400-4DBF, U+4E00-9FFF,
     U+F900-FAFF, U+FF00-FFEF;
@@ -52,9 +52,10 @@ html[data-theme="light"] {
   --border: #d8d2c4;
   --paper: #fffdf5;
   --paper-deep: #f1ecdf;
-  --ink-soft: #6f756f;
+  --ink-soft: #5f665f;
+  --ink-body: #1d2b46;
   --revision: #9b4332;
-  --rule: rgb(27 54 93 / 0.12);
+  --rule: rgb(27 54 93 / 0.095);
   --font-writing:
     "Virgil", "Jin Chinese Hand", "Kalam", "LXGW WenKai", "霞鹜文楷",
     "STXingkai", "Xingkai SC", "行楷-简", "STKaiti", "Kaiti SC", "楷体-简",
@@ -73,7 +74,8 @@ html[data-theme="dark"] {
   --border: #535246;
   --paper: #292a25;
   --paper-deep: #33342d;
-  --ink-soft: #bbb5a7;
+  --ink-soft: #c8c0ae;
+  --ink-body: #f1e8d6;
   --revision: #e59a82;
   --rule: rgb(184 203 232 / 0.13);
 }
@@ -87,6 +89,7 @@ html[data-theme="dark"] {
   --color-paper: var(--paper);
   --color-paper-deep: var(--paper-deep);
   --color-ink-soft: var(--ink-soft);
+  --color-ink-body: var(--ink-body);
   --color-revision: var(--revision);
 }
 
@@ -140,7 +143,7 @@ html[data-theme="dark"] {
 }
 
 @utility max-w-app {
-  @apply max-w-3xl;
+  max-width: 1040px;
 }
 
 .active-nav {

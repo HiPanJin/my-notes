@@ -6,8 +6,10 @@
     @apply prose;
     font-family: var(--font-hand);
     font-size: 1.14rem;
+    font-weight: 500;
     line-height: 1.84;
     letter-spacing: 0;
+    color: var(--ink-body);
 
     h1,
     h2,
@@ -38,11 +40,11 @@
     figcaption,
     table,
     code {
-      @apply text-foreground;
+      @apply text-ink-body;
     }
 
     a {
-      @apply break-words text-foreground decoration-dashed underline-offset-4 hover:text-accent focus-visible:no-underline;
+      @apply break-words text-ink-body decoration-dashed underline-offset-4 hover:text-accent focus-visible:no-underline;
     }
 
     ul {
