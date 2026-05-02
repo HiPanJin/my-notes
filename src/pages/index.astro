@@ -24,35 +24,35 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
   <main
     id="main-content"
     data-layout="index"
-    class="max-w-app mx-auto w-full px-3 sm:px-4"
+    class="mx-auto w-full max-w-app px-3 sm:px-4"
   >
     <div
-      class="paper-sheet border-border/80 my-5 rounded-[2px] border px-5 py-7 sm:my-8 sm:px-10 sm:py-10"
+      class="paper-sheet my-5 rounded-[2px] border border-border/80 px-5 py-7 sm:my-8 sm:px-10 sm:py-10"
     >
-      <section id="hero" class="px-0 pb-7 pt-0">
+      <section id="hero" class="px-0 pt-0 pb-7">
         <div class="mb-5 flex items-start justify-between gap-4">
           <h1
-            class="manuscript-title text-accent my-0 max-w-2xl text-[2.65rem] leading-[1.08] sm:text-6xl"
+            class="manuscript-title my-0 max-w-2xl text-[2.65rem] leading-[1.08] text-accent sm:text-6xl"
           >
             Jin Pan's notes
           </h1>
           <a
             target="_blank"
             href="/rss.xml"
-            class="text-accent hover:text-foreground mt-2 inline-block rounded-[2px] p-1 transition hover:-rotate-3"
+            class="mt-2 inline-block rounded-[2px] p-1 text-accent transition hover:-rotate-3 hover:text-foreground"
             aria-label="rss feed"
             title="RSS Feed"
           >
             <IconRss
               width={20}
               height={20}
-              class="stroke-3 scale-125 stroke-current rtl:-rotate-90"
+              class="scale-125 stroke-current stroke-3 rtl:-rotate-90"
             />
             <span class="sr-only">RSS Feed</span>
           </a>
         </div>
 
-        <p class="text-foreground max-w-2xl text-lg leading-9 sm:text-xl">
+        <p class="max-w-2xl text-lg leading-9 text-foreground sm:text-xl">
           One topic, one living page. I keep short notes in place instead of
           turning every thought into a new article.
         </p>
@@ -64,7 +64,7 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
           // only display if at least one social link is enabled
           SOCIALS.length > 0 && (
             <div class="note-rule mt-7 flex flex-col pt-4 sm:flex-row sm:items-center">
-              <div class="margin-note mb-1 me-2 whitespace-nowrap sm:mb-0">
+              <div class="margin-note me-2 mb-1 whitespace-nowrap sm:mb-0">
                 Margin notes:
               </div>
               <Socials />
@@ -77,8 +77,8 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
         featuredPosts.length > 0 && (
           <>
             <div class="note-rule my-8" />
-            <section id="featured" class="px-0 pb-4 pt-0">
-              <h2 class="manuscript-title text-accent text-3xl leading-tight sm:text-4xl">
+            <section id="featured" class="px-0 pt-0 pb-4">
+              <h2 class="manuscript-title text-3xl leading-tight text-accent sm:text-4xl">
                 置顶笔记
               </h2>
               <ul>
@@ -95,8 +95,8 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
         recentPosts.length > 0 && (
           <>
             <div class="note-rule my-8" />
-            <section id="recent-posts" class="px-0 pb-4 pt-0">
-              <h2 class="manuscript-title text-accent text-3xl leading-tight sm:text-4xl">
+            <section id="recent-posts" class="px-0 pt-0 pb-4">
+              <h2 class="manuscript-title text-3xl leading-tight text-accent sm:text-4xl">
                 最近笔记
               </h2>
               <ul>
@@ -115,7 +115,7 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
       <div class="mt-7 text-center">
         <LinkButton
           href="/notes/"
-          class="ink-link border-accent/70 inline-flex items-center gap-2 border-b border-dashed pb-1"
+          class="ink-link inline-flex items-center gap-2 border-b border-dashed border-accent/70 pb-1"
         >
           Open all notes
           <IconArrowRight class="inline-block rtl:-rotate-180" />
