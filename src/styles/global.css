@@ -159,7 +159,7 @@ html[data-theme="dark"] {
 .paper-sheet {
   background:
     linear-gradient(var(--rule) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(155 72 52 / 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(155 72 52 / 0.055) 1px, transparent 1px),
     radial-gradient(
       circle at 18% 12%,
       rgb(255 255 255 / 0.48),
@@ -168,7 +168,7 @@ html[data-theme="dark"] {
     var(--paper);
   background-position:
     0 2.05rem,
-    3.2rem 0,
+    0.9rem 0,
     0 0,
     0 0;
   background-size:
@@ -179,6 +179,16 @@ html[data-theme="dark"] {
   box-shadow:
     0 0 0 1px rgb(27 54 93 / 0.04),
     0 12px 36px rgb(58 52 38 / 0.08);
+}
+
+@media (width >= 40rem) {
+  .paper-sheet {
+    background-position:
+      0 2.05rem,
+      2rem 0,
+      0 0,
+      0 0;
+  }
 }
 
 html[data-theme="dark"] .paper-sheet {
