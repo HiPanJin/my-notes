@@ -14,17 +14,17 @@
     h3,
     h4,
     th {
-      @apply mb-3 text-foreground;
+      @apply text-foreground mb-3;
       font-family: var(--font-display);
       letter-spacing: 0;
     }
 
     h2 {
-      @apply mt-10 text-3xl leading-tight text-accent;
+      @apply text-accent mt-10 text-3xl leading-tight;
     }
 
     h3 {
-      @apply text-2xl leading-tight not-italic;
+      @apply text-2xl not-italic leading-tight;
     }
 
     p {
@@ -42,7 +42,7 @@
     }
 
     a {
-      @apply break-words text-foreground decoration-dashed underline-offset-4 hover:text-accent focus-visible:no-underline;
+      @apply text-foreground hover:text-accent break-words decoration-dashed underline-offset-4 focus-visible:no-underline;
     }
 
     ul {
@@ -54,11 +54,11 @@
     }
 
     hr {
-      @apply my-8 border-dashed border-border;
+      @apply border-border my-8 border-dashed;
     }
 
     img {
-      @apply mx-auto rounded-[2px] border border-border;
+      @apply border-border mx-auto rounded-[2px] border;
     }
 
     figcaption {
@@ -68,7 +68,7 @@
     table {
       th,
       td {
-        @apply border border-border p-2;
+        @apply border-border border p-2;
       }
 
       th {
@@ -81,7 +81,7 @@
     }
 
     code {
-      @apply rounded-[3px] border border-border/70 bg-paper-deep/90 px-1.5 py-1 break-words text-foreground before:content-none after:content-none;
+      @apply border-border/70 bg-paper-deep/90 text-foreground break-words rounded-[3px] border px-1.5 py-1 before:content-none after:content-none;
       font-family:
         ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
         "Liberation Mono", "Courier New", monospace;
@@ -93,7 +93,7 @@
     }
 
     blockquote {
-      @apply my-6 border-s-2 border-s-accent/70 bg-paper-deep/35 px-4 py-2 break-words opacity-95;
+      @apply border-s-accent/70 bg-paper-deep/35 my-6 break-words border-s-2 px-4 py-2 opacity-95;
       font-style: normal;
     }
 
@@ -111,22 +111,22 @@
     }
 
     details {
-      @apply inline-block cursor-pointer text-foreground select-none [&_p]:hidden [&_ul]:!my-0;
+      @apply text-foreground inline-block cursor-pointer select-none [&_p]:hidden [&_ul]:!my-0;
     }
 
     summary {
-      @apply focus-visible:no-underline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-accent focus-visible:outline-dashed;
+      @apply focus-visible:outline-accent focus-visible:no-underline focus-visible:outline-dashed focus-visible:outline-2 focus-visible:outline-offset-1;
     }
 
     pre {
-      @apply focus-visible:border-transparent focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-dashed;
+      @apply focus-visible:outline-accent focus-visible:border-transparent focus-visible:outline-dashed focus-visible:outline-2;
       border-radius: 3px;
     }
   }
 
   /* ===== Code Blocks & Syntax Highlighting ===== */
   .astro-code {
-    @apply flex border border-border/80 bg-paper-deep/85 text-(--shiki-light) outline-border [&_span]:text-(--shiki-light);
+    @apply border-border/80 bg-paper-deep/85 text-(--shiki-light) outline-border [&_span]:text-(--shiki-light) flex border;
   }
 
   html[data-theme="dark"] .astro-code {
@@ -143,10 +143,10 @@
       @apply relative inline-block w-full bg-red-500/20 before:absolute before:-left-3 before:text-red-500 before:content-['-'];
     }
     .line.highlighted {
-      @apply inline-block w-full bg-muted/60;
+      @apply bg-muted/60 inline-block w-full;
     }
     .highlighted-word {
-      @apply rounded-sm border border-border px-0.5 py-px;
+      @apply border-border rounded-sm border px-0.5 py-px;
     }
   }
 }

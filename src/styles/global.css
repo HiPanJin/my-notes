@@ -100,7 +100,7 @@ html[data-theme="dark"] {
     @apply overflow-y-scroll scroll-smooth;
   }
   body {
-    @apply flex min-h-svh flex-col text-foreground selection:bg-accent/75 selection:text-background;
+    @apply text-foreground selection:bg-accent/75 selection:text-background flex min-h-svh flex-col;
     background:
       radial-gradient(
         ellipse at 50% -12rem,
@@ -127,7 +127,7 @@ html[data-theme="dark"] {
   }
   a,
   button {
-    @apply outline-offset-1 outline-accent focus-visible:no-underline focus-visible:outline-2 focus-visible:outline-dashed;
+    @apply outline-accent outline-offset-1 focus-visible:no-underline focus-visible:outline-dashed focus-visible:outline-2;
   }
   button:not(:disabled),
   [role="button"]:not(:disabled) {
@@ -135,7 +135,7 @@ html[data-theme="dark"] {
   }
   section,
   footer {
-    @apply mx-auto max-w-app px-4;
+    @apply max-w-app mx-auto px-4;
   }
 }
 
@@ -185,15 +185,15 @@ html[data-theme="dark"] .paper-sheet {
 }
 
 .note-rule {
-  @apply border-t border-dashed border-border/90;
+  @apply border-border/90 border-t border-dashed;
 }
 
 .ink-link {
-  @apply text-accent decoration-dashed underline-offset-4 transition hover:text-foreground hover:underline;
+  @apply text-accent hover:text-foreground decoration-dashed underline-offset-4 transition hover:underline;
 }
 
 .margin-note {
-  @apply text-sm leading-6 text-ink-soft;
+  @apply text-ink-soft text-sm leading-6;
 }
 
 /* Source: https://piccalil.li/blog/a-more-modern-css-reset/ */
