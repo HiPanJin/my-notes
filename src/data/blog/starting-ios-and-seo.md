@@ -1,23 +1,34 @@
 ---
-title: Starting My iOS and SEO Learning Journey
+title: SEO 笔记
 author: Jin Pan
 pubDatetime: 2025-12-16T13:08:21Z
-slug: starting-ios-and-seo
-featured: false
+modDatetime: 2026-05-01T00:00:00Z
+featured: true
 draft: false
 tags:
-  - iOS
   - SEO
-  - Learning
-description: Kicking off my iOS development and SEO learning journey and sharing progress and roadblocks on this blog.
+  - 笔记
+description: 关于 SEO 观察、实验和一些值得记住的小判断。
 ---
 
-I am officially starting two tracks at once: iOS development and SEO. I want to keep this blog as my public notebook, so I will drop quick updates, small wins, and the rough spots I run into.
+这页放 SEO 相关的小观察和实验。我不想每个想法都单独发一篇文章，新的判断就继续补在这里。
 
-What to expect here:
+## 2026-05-01
 
-- Short progress notes on what I built or broke in Swift/SwiftUI.
-- SEO experiments and what actually moves the needle.
-- Problems I get stuck on and how I eventually solve them.
+很多 SEO 想法更适合写成短笔记：
 
-If you see a gap between posts, feel free to nudge me—I want this to stay honest and consistent. Let's see how far this goes.
+- 我试了什么？
+- 发生了什么变化？
+- 下次还会不会重复？
+
+这样就够了。
+
+## 2025-12-16
+
+有用的 SEO 不只是关键词，而是一条反馈回路：
+
+- 搜索意图会暴露人们真正想理解什么。
+- 页面会逼着产品想法变得更清楚。
+- 结果会告诉我，这个解释到底有没有用。
+
+我想用这页记录这条回路，不把每次更新都写成长文章。

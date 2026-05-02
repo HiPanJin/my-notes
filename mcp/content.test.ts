@@ -70,6 +70,85 @@ describe("createBlogStore", () => {
     expect(text).toContain("~~Old sentence.~~\n\nNew sentence.");
   });
 
+  it("appends a dated note section to a topic page", async () => {
+    const store = createBlogStore({ blogDir });
+    const file = path.join(blogDir, "note.md");
+    await writeFile(
+      file,
+      [
+        "---",
+        "title: Note",
+        "pubDatetime: 2026-05-01T00:00:00.000Z",
+        "draft: false",
+        "tags:",
+        "  - Test",
+        "description: Note description.",
+        "---",
+        "",
+        "Opening note.",
+      ].join("\n")
+    );
+
+    await store.appendNoteToTopic({
+      slug: "note",
+      content: "今天先记一句。",
+      date: "2026-05-02",
+    });
+
+    const text = await readFile(file, "utf8");
+    expect(text).toContain("modDatetime: 2026-05-02T00:00:00.000Z");
+    expect(text).toContain("Opening note.\n\n## 2026-05-02\n\n今天先记一句。\n");
+  });
+
+  it("appends to an existing dated section without duplicating the heading", async () => {
+    const store = createBlogStore({ blogDir });
+    const file = path.join(blogDir, "note.md");
+    await writeFile(
+      file,
+      [
+        "---",
+        "title: Note",
+        "pubDatetime: 2026-05-01T00:00:00.000Z",
+        "modDatetime: 2026-05-01T00:00:00.000Z",
+        "draft: false",
+        "tags:",
+        "  - Test",
+        "description: Note description.",
+        "---",
+        "",
+        "Opening note.",
+        "",
+        "## 2026-05-02",
+        "",
+        "第一条。",
+      ].join("\n")
+    );
+
+    await store.appendNoteToTopic({
+      slug: "note",
+      content: "- 第二条",
+      date: "2026-05-02",
+    });
+
+    const text = await readFile(file, "utf8");
+    expect(text.match(/^## 2026-05-02$/gm)).toHaveLength(1);
+    expect(text).toContain("## 2026-05-02\n\n第一条。\n\n- 第二条");
+  });
+
+  it("rejects impossible note dates", async () => {
+    const store = createBlogStore({ blogDir });
+    const file = path.join(blogDir, "note.md");
+    await writeFile(file, "---\ntitle: Note\n---\n\nBody");
+
+    await expect(
+      store.appendNoteToTopic({
+        slug: "note",
+        content: "Bad date should not write.",
+        date: "2026-99-99",
+      })
+    ).rejects.toThrow("Invalid date");
+  });
+
   it("refuses ambiguous duplicate revision matches", async () => {
     const store = createBlogStore({ blogDir });
     const file = path.join(blogDir, "note.md");

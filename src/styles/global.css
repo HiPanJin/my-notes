@@ -4,33 +4,78 @@
 @import "tailwindcss";
 @import "./typography.css";
 
+@font-face {
+  font-display: swap;
+  font-family: "Virgil";
+  font-style: normal;
+  font-weight: 400;
+  src: url("/fonts/Virgil-Regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "Jin Chinese Hand";
+  font-style: normal;
+  font-weight: 400;
+  src:
+    local("Xingkai SC Light"), local("STXingkaiSC-Light"),
+    local("行楷-简 细体"), local("Kaiti SC Regular"),
+    local("STKaitiSC-Regular"), local("楷体-简 常规体"), local("STKaiti"),
+    local("华文楷体");
+  unicode-range:
+    U+2E80-2EFF, U+3000-303F, U+31C0-31EF, U+3400-4DBF, U+4E00-9FFF,
+    U+F900-FAFF, U+FF00-FFEF;
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "Jin Chinese Hand";
+  font-style: normal;
+  font-weight: 700;
+  src:
+    local("Xingkai SC Bold"), local("STXingkaiSC-Bold"), local("行楷-简 粗体"),
+    local("Kaiti SC Bold"), local("STKaitiSC-Bold"), local("楷体-简 粗体"),
+    local("STKaiti"), local("华文楷体");
+  unicode-range:
+    U+2E80-2EFF, U+3000-303F, U+31C0-31EF, U+3400-4DBF, U+4E00-9FFF,
+    U+F900-FAFF, U+FF00-FFEF;
+}
+
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
 :root,
 html[data-theme="light"] {
-  --background: #f4ecd8;
-  --foreground: #29231c;
-  --accent: #19466f;
-  --muted: #e7dcc3;
-  --border: #d7c8a9;
-  --paper: #fbf5e6;
-  --paper-deep: #eadfc6;
-  --ink-soft: #5d5144;
-  --revision: #8a3d2b;
-  --font-hand: "Kalam", "Segoe Print", "Bradley Hand", cursive;
-  --font-display: "Caveat Variable", "Kalam", cursive;
+  --background: #f5f4ed;
+  --foreground: #273041;
+  --accent: #1b365d;
+  --muted: #e9e4d7;
+  --border: #d8d2c4;
+  --paper: #fffdf5;
+  --paper-deep: #f1ecdf;
+  --ink-soft: #6f756f;
+  --revision: #9b4332;
+  --rule: rgb(27 54 93 / 0.12);
+  --font-writing:
+    "Virgil", "Jin Chinese Hand", "Kalam", "LXGW WenKai", "霞鹜文楷",
+    "STXingkai", "Xingkai SC", "行楷-简", "STKaiti", "Kaiti SC", "楷体-简",
+    "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe Print",
+    "Bradley Hand", cursive;
+  --font-hand: var(--font-writing);
+  --font-display: var(--font-writing);
+  --font-ui: var(--font-writing);
 }
 
 html[data-theme="dark"] {
-  --background: #211b15;
-  --foreground: #f0e3ca;
-  --accent: #8eb6d9;
-  --muted: #3a3025;
-  --border: #5b4b39;
-  --paper: #2b241b;
-  --paper-deep: #3a3025;
-  --ink-soft: #d6c5a6;
-  --revision: #f0a080;
+  --background: #22231f;
+  --foreground: #ede7da;
+  --accent: #b8cbe8;
+  --muted: #35352f;
+  --border: #535246;
+  --paper: #292a25;
+  --paper-deep: #33342d;
+  --ink-soft: #bbb5a7;
+  --revision: #e59a82;
+  --rule: rgb(184 203 232 / 0.13);
 }
 
 @theme inline {
@@ -58,19 +103,27 @@ html[data-theme="dark"] {
     @apply flex min-h-svh flex-col text-foreground selection:bg-accent/75 selection:text-background;
     background:
       radial-gradient(
-        circle at 18% 12%,
-        rgb(255 255 255 / 0.22),
-        transparent 28rem
+        ellipse at 50% -12rem,
+        rgb(255 255 255 / 0.62),
+        transparent 32rem
       ),
-      linear-gradient(90deg, rgb(120 90 45 / 0.035) 1px, transparent 1px),
-      linear-gradient(180deg, rgb(120 90 45 / 0.03) 1px, transparent 1px),
+      radial-gradient(
+        circle at 20% 18%,
+        rgb(27 54 93 / 0.045),
+        transparent 22rem
+      ),
+      linear-gradient(90deg, rgb(27 54 93 / 0.025) 1px, transparent 1px),
+      linear-gradient(180deg, rgb(87 73 48 / 0.035) 1px, transparent 1px),
       var(--background);
     background-size:
+      auto,
       auto,
       34px 34px,
       34px 34px,
       auto;
     font-family: var(--font-hand);
+    font-size: 1.03rem;
+    letter-spacing: 0;
   }
   a,
   button {
@@ -91,7 +144,7 @@ html[data-theme="dark"] {
 }
 
 .active-nav {
-  @apply underline decoration-wavy decoration-2 underline-offset-4;
+  @apply text-accent underline decoration-wavy decoration-2 underline-offset-4;
 }
 
 .manuscript-title {
@@ -102,18 +155,45 @@ html[data-theme="dark"] {
 
 .paper-sheet {
   background:
-    linear-gradient(135deg, rgb(255 255 255 / 0.32), transparent 32%),
-    linear-gradient(180deg, rgb(255 255 255 / 0.12), transparent 18rem),
+    linear-gradient(var(--rule) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(155 72 52 / 0.08) 1px, transparent 1px),
+    radial-gradient(
+      circle at 18% 12%,
+      rgb(255 255 255 / 0.48),
+      transparent 20rem
+    ),
     var(--paper);
+  background-position:
+    0 2.05rem,
+    3.2rem 0,
+    0 0,
+    0 0;
+  background-size:
+    100% 2.1rem,
+    100% 100%,
+    auto,
+    auto;
   box-shadow:
-    0 1px 0 rgb(64 45 20 / 0.08),
-    0 18px 48px rgb(76 55 25 / 0.1);
+    0 0 0 1px rgb(27 54 93 / 0.04),
+    0 12px 36px rgb(58 52 38 / 0.08);
 }
 
 html[data-theme="dark"] .paper-sheet {
   box-shadow:
     0 1px 0 rgb(255 240 210 / 0.05),
     0 18px 48px rgb(0 0 0 / 0.28);
+}
+
+.note-rule {
+  @apply border-t border-dashed border-border/90;
+}
+
+.ink-link {
+  @apply text-accent decoration-dashed underline-offset-4 transition hover:text-foreground hover:underline;
+}
+
+.margin-note {
+  @apply text-sm leading-6 text-ink-soft;
 }
 
 /* Source: https://piccalil.li/blog/a-more-modern-css-reset/ */

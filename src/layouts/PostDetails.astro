@@ -18,9 +18,10 @@ import { SITE } from "@/config";
 export interface Props {
   post: CollectionEntry<"blog">;
   posts: CollectionEntry<"blog">[];
+  basePath?: "/posts" | "/notes";
 }
 
-const { post, posts } = Astro.props;
+const { post, posts, basePath = "/posts" } = Astro.props;
 
 const {
   title,
@@ -68,19 +69,19 @@ const layoutProps = {
   scrollSmooth: true,
 };
 
-/* ========== Prev/Next Posts ========== */
+/* ========== Prev/Next Notes ========== */
 
-const allPosts = posts.map(({ data: { title }, id, filePath }) => ({
+const allNotes = posts.map(({ data: { title }, id, filePath }) => ({
   id,
   title,
   filePath,
 }));
 
-const currentPostIndex = allPosts.findIndex(a => a.id === post.id);
+const currentNoteIndex = allNotes.findIndex(a => a.id === post.id);
 
-const prevPost = currentPostIndex !== 0 ? allPosts[currentPostIndex - 1] : null;
-const nextPost =
-  currentPostIndex !== allPosts.length ? allPosts[currentPostIndex + 1] : null;
+const prevNote = currentNoteIndex !== 0 ? allNotes[currentNoteIndex - 1] : null;
+const nextNote =
+  currentNoteIndex !== allNotes.length ? allNotes[currentNoteIndex + 1] : null;
 ---
 
 <Layout {...layoutProps}>
@@ -95,16 +96,18 @@ const nextPost =
     data-pagefind-body
   >
     <div
-      class="paper-sheet rounded-sm border border-border/70 px-5 py-8 sm:px-10 sm:py-12"
+      class="paper-sheet rounded-[2px] border border-border/80 px-5 py-8 sm:px-10 sm:py-12"
     >
       <h1
         transition:name={slugifyStr(title)}
-        class="manuscript-title inline-block text-4xl leading-none text-accent sm:text-5xl"
+        class="manuscript-title inline-block text-4xl leading-[1.08] text-accent sm:text-6xl"
       >
         {title}
       </h1>
-      <div class="my-3 flex flex-wrap items-center gap-2 text-ink-soft">
+      <div class="margin-note my-4 flex flex-wrap items-center gap-2">
         <Datetime {pubDatetime} {modDatetime} {timezone} size="lg" />
+        <span aria-hidden="true">/</span>
+        <span>持续笔记</span>
         <span
           aria-hidden="true"
           class:list={[
@@ -118,7 +121,7 @@ const nextPost =
         <Content />
       </article>
 
-      <hr class="my-8 border-t border-dashed border-border/80" />
+      <hr class="note-rule my-8" />
 
       <EditPost class="sm:hidden" {hideEditPost} {post} />
 
@@ -130,33 +133,39 @@ const nextPost =
 
       <ShareLinks />
 
-      <hr class="my-6 border-t border-dashed border-border/80" />
+      <hr class="note-rule my-6" />
 
-      <!-- Previous/Next Post Buttons -->
+      <!-- Previous/Next Note Buttons -->
       <div data-pagefind-ignore class="grid grid-cols-1 gap-6 sm:grid-cols-2">
         {
-          prevPost && (
+          prevNote && (
             <a
-              href={getPath(prevPost.id, prevPost.filePath)}
+              href={getPath(prevNote.id, prevNote.filePath).replace(
+                /^\/posts/,
+                basePath
+              )}
               class="flex w-full gap-1 text-ink-soft transition hover:-translate-x-1 hover:text-accent"
             >
               <IconChevronLeft class="inline-block flex-none rtl:rotate-180" />
               <div>
-                <span>Previous Post</span>
-                <div class="text-sm text-accent/85">{prevPost.title}</div>
+                <span>上一篇笔记</span>
+                <div class="text-sm text-accent/85">{prevNote.title}</div>
               </div>
             </a>
           )
         }
         {
-          nextPost && (
+          nextNote && (
             <a
-              href={getPath(nextPost.id, nextPost.filePath)}
+              href={getPath(nextNote.id, nextNote.filePath).replace(
+                /^\/posts/,
+                basePath
+              )}
               class="flex w-full justify-end gap-1 text-end text-ink-soft transition hover:translate-x-1 hover:text-accent sm:col-start-2"
             >
               <div>
-                <span>Next Post</span>
-                <div class="text-sm text-accent/85">{nextPost.title}</div>
+                <span>下一篇笔记</span>
+                <div class="text-sm text-accent/85">{nextNote.title}</div>
               </div>
               <IconChevronRight class="inline-block flex-none rtl:rotate-180" />
             </a>

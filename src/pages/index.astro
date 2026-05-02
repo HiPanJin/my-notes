@@ -24,22 +24,22 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
   <main
     id="main-content"
     data-layout="index"
-    class="mx-auto w-full max-w-app px-4"
+    class="mx-auto w-full max-w-app px-3 sm:px-4"
   >
     <div
-      class="paper-sheet my-6 rounded-sm border border-border/70 px-5 py-8 sm:my-10 sm:px-10 sm:py-12"
+      class="paper-sheet my-5 rounded-[2px] border border-border/80 px-5 py-7 sm:my-8 sm:px-10 sm:py-10"
     >
-      <section id="hero" class="px-0 pt-0 pb-8">
-        <div class="mb-4 flex items-start justify-between gap-4">
+      <section id="hero" class="px-0 pt-0 pb-7">
+        <div class="mb-5 flex items-start justify-between gap-4">
           <h1
-            class="manuscript-title my-0 max-w-2xl text-5xl leading-none text-accent sm:text-6xl"
+            class="manuscript-title my-0 max-w-2xl text-[2.65rem] leading-[1.08] text-accent sm:text-6xl"
           >
-            Jin Pan — Learning in Public
+            Jin Pan's notes
           </h1>
           <a
             target="_blank"
             href="/rss.xml"
-            class="mt-3 inline-block rounded-sm p-1 text-accent transition hover:-rotate-3 hover:text-foreground"
+            class="mt-2 inline-block rounded-[2px] p-1 text-accent transition hover:-rotate-3 hover:text-foreground"
             aria-label="rss feed"
             title="RSS Feed"
           >
@@ -52,19 +52,19 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
           </a>
         </div>
 
-        <p class="text-lg leading-8 text-foreground">
-          I share notes, experiments, and takeaways as I learn in public — from
-          SEO and growth experiments to iOS, Swift, SwiftUI, and Go development.
+        <p class="max-w-2xl text-lg leading-9 text-foreground sm:text-xl">
+          One topic, one living page. I keep short notes in place instead of
+          turning every thought into a new article.
         </p>
-        <p class="mt-3 text-ink-soft">
-          Focus areas: SEO, iOS, Swift, SwiftUI, Go. Expect a mix of quick tips,
-          debugging notes, and longer write-ups.
+        <p class="margin-note mt-4 max-w-xl">
+          Mostly tiny realizations, rough edges, and sentences worth keeping
+          before they slip away.
         </p>
         {
           // only display if at least one social link is enabled
           SOCIALS.length > 0 && (
-            <div class="mt-6 flex flex-col border-t border-dashed border-border/80 pt-4 sm:flex-row sm:items-center">
-              <div class="me-2 mb-1 whitespace-nowrap text-ink-soft sm:mb-0">
+            <div class="note-rule mt-7 flex flex-col pt-4 sm:flex-row sm:items-center">
+              <div class="margin-note me-2 mb-1 whitespace-nowrap sm:mb-0">
                 Margin notes:
               </div>
               <Socials />
@@ -76,14 +76,14 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
       {
         featuredPosts.length > 0 && (
           <>
-            <div class="my-8 border-t border-dashed border-border/80" />
+            <div class="note-rule my-8" />
             <section id="featured" class="px-0 pt-0 pb-4">
-              <h2 class="manuscript-title text-4xl leading-none text-accent">
-                Featured Pages
+              <h2 class="manuscript-title text-3xl leading-tight text-accent sm:text-4xl">
+                置顶笔记
               </h2>
               <ul>
                 {featuredPosts.map(data => (
-                  <Card variant="h3" {...data} />
+                  <Card variant="h3" basePath="/notes" {...data} />
                 ))}
               </ul>
             </section>
@@ -94,15 +94,17 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
       {
         recentPosts.length > 0 && (
           <>
-            <div class="my-8 border-t border-dashed border-border/80" />
+            <div class="note-rule my-8" />
             <section id="recent-posts" class="px-0 pt-0 pb-4">
-              <h2 class="manuscript-title text-4xl leading-none text-accent">
-                Notebook Entries
+              <h2 class="manuscript-title text-3xl leading-tight text-accent sm:text-4xl">
+                最近笔记
               </h2>
               <ul>
                 {recentPosts.map(
                   (data, index) =>
-                    index < SITE.postPerIndex && <Card variant="h3" {...data} />
+                    index < SITE.postPerIndex && (
+                      <Card variant="h3" basePath="/notes" {...data} />
+                    )
                 )}
               </ul>
             </section>
@@ -110,12 +112,12 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
         )
       }
 
-      <div class="mt-8 text-center">
+      <div class="mt-7 text-center">
         <LinkButton
-          href="/posts/"
-          class="inline-flex items-center gap-2 border-b border-dashed border-accent/70 pb-1 text-accent"
+          href="/notes/"
+          class="ink-link inline-flex items-center gap-2 border-b border-dashed border-accent/70 pb-1"
         >
-          Open the archive
+          Open all notes
           <IconArrowRight class="inline-block rtl:-rotate-180" />
         </LinkButton>
       </div>

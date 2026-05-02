@@ -6,23 +6,24 @@ import Datetime from "./Datetime.astro";
 
 export interface Props extends CollectionEntry<"blog"> {
   variant?: "h2" | "h3";
+  basePath?: "/posts" | "/notes";
 }
 
-const { variant = "h2", data, id, filePath } = Astro.props;
+const { variant = "h2", basePath = "/posts", data, id, filePath } = Astro.props;
 
 const { title, description, pubDatetime, modDatetime, timezone } = data;
 
 const headerProps = {
   style: { viewTransitionName: slugifyStr(title) },
   class:
-    "manuscript-title text-2xl leading-tight decoration-dashed hover:underline",
+    "manuscript-title text-2xl leading-snug decoration-dashed hover:underline sm:text-3xl",
 };
 ---
 
-<li class="my-7 border-s-2 border-accent/45 ps-4">
+<li class="my-7 border-s border-accent/30 ps-4">
   <a
-    href={getPath(id, filePath)}
-    class="inline-block text-accent decoration-dashed underline-offset-4 transition hover:-translate-y-px hover:text-foreground focus-visible:no-underline focus-visible:underline-offset-0"
+    href={getPath(id, filePath).replace(/^\/posts/, basePath)}
+    class="ink-link inline-block focus-visible:no-underline focus-visible:underline-offset-0"
   >
     {
       variant === "h2" ? (
@@ -32,6 +33,9 @@ const headerProps = {
       )
     }
   </a>
-  <Datetime {pubDatetime} {modDatetime} {timezone} />
-  <p class="mt-2 text-ink-soft">{description}</p>
+  <div class="margin-note mt-1">
+    <Datetime {pubDatetime} {modDatetime} {timezone} />
+  </div>
+  <p class="mt-2 max-w-2xl text-lg leading-8 text-ink-soft">{description}</p>
+  <p class="margin-note mt-2">这个主题会持续更新。</p>
 </li>

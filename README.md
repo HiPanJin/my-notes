@@ -1,10 +1,11 @@
 # my-notes
 
-Personal blog for Jin Pan, learning in public. I’m sharing progress on iOS (Swift/SwiftUI) and SEO experiments, plus the problems I run into and how I fix them.
+Living notes for Jin Pan. Each topic has one Markdown page that gets updated
+over time with short thoughts, fixes, and learning notes.
 
 ## Content
 
-- Posts live in `src/data/blog/*.md` (frontmatter + Markdown).
+- Topic notes live in `src/data/blog/*.md` (frontmatter + Markdown).
 - Site metadata lives in `src/config.ts`.
 - Social links live in `src/constants.ts`.
 
@@ -24,7 +25,7 @@ pnpm preview
 
 ## AI / MCP
 
-This blog includes a local MCP server for AI-assisted drafting and revision.
+This site includes a local MCP server for AI-assisted drafting and revision.
 See `docs/mcp.md`.
 
 ## Contact

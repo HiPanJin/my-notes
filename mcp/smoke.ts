@@ -20,8 +20,20 @@ if (!tools.tools.some(tool => tool.name === "list_posts")) {
   throw new Error("list_posts tool was not registered");
 }
 
+if (!tools.tools.some(tool => tool.name === "list_notes")) {
+  throw new Error("list_notes tool was not registered");
+}
+
+if (!tools.tools.some(tool => tool.name === "append_note_to_topic")) {
+  throw new Error("append_note_to_topic tool was not registered");
+}
+
 if (!resources.resources.some(resource => resource.uri === "posts://all")) {
   throw new Error("posts://all resource was not registered");
+}
+
+if (!resources.resources.some(resource => resource.uri === "notes://all")) {
+  throw new Error("notes://all resource was not registered");
 }
 
 await client.close();

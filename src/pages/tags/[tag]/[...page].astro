@@ -36,15 +36,15 @@ const { page, tagName } = Astro.props;
   <Main
     pageTitle={[`Tag:`, `${tagName}`]}
     titleTransition={tag}
-    pageDesc={`All the articles with the tag "${tagName}".`}
+    pageDesc={`标记为「${tagName}」的笔记。`}
   >
     <h1 slot="title" transition:name={tag}>{`Tag:${tag}`}</h1>
     <ul>
-      {page.data.map(data => <Card {...data} />)}
+      {page.data.map(data => <Card {...data} basePath="/notes" />)}
     </ul>
   </Main>
 
-  <Pagination {page} />
+  <Pagination {page} basePath="/notes" />
 
   <Footer noMarginTop={page.lastPage > 1} />
 </Layout>

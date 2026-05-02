@@ -5,6 +5,7 @@ import { z } from "zod";
 
 const DEFAULT_BLOG_DIR = path.resolve(process.cwd(), "src/data/blog");
 const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 
 const FrontmatterPatchSchema = z
   .object({
@@ -34,6 +35,12 @@ export interface AppendRevisionInput {
   newText: string;
 }
 
+export interface AppendNoteToTopicInput {
+  slug: string;
+  content: string;
+  date?: string;
+}
+
 export interface UpdateFrontmatterInput {
   slug: string;
   patch: FrontmatterPatch;
@@ -55,6 +62,57 @@ export function slugifyTitle(title: string) {
     .replace(/^-+|-+$/g, "");
 
   return validateSlug(slug || "untitled");
+}
+
+function todayInSiteTimezone() {
+  return new Intl.DateTimeFormat("en-CA", {
+    day: "2-digit",
+    month: "2-digit",
+    timeZone: "Asia/Shanghai",
+    year: "numeric",
+  }).format(new Date());
+}
+
+function validateDate(date: string) {
+  if (!DATE_PATTERN.test(date)) {
+    throw new Error(`Invalid date: ${date}`);
+  }
+
+  const parsed = new Date(`${date}T00:00:00.000Z`);
+
+  if (Number.isNaN(parsed.getTime())) {
+    throw new Error(`Invalid date: ${date}`);
+  }
+
+  const normalized = parsed.toISOString().slice(0, 10);
+
+  if (normalized !== date) {
+    throw new Error(`Invalid date: ${date}`);
+  }
+
+  return date;
+}
+
+function appendToDatedSection(markdown: string, date: string, content: string) {
+  const trimmedMarkdown = markdown.trimEnd();
+  const trimmedContent = content.trim();
+  const heading = `## ${date}`;
+  const headingPattern = new RegExp(`^## ${date}$`, "m");
+  const headingMatch = headingPattern.exec(trimmedMarkdown);
+
+  if (!headingMatch) {
+    return `${trimmedMarkdown}\n\n${heading}\n\n${trimmedContent}\n`;
+  }
+
+  const sectionStart = headingMatch.index;
+  const searchStart = sectionStart + heading.length;
+  const nextHeadingIndex = trimmedMarkdown.slice(searchStart).search(/\n## /);
+  const insertAt =
+    nextHeadingIndex === -1
+      ? trimmedMarkdown.length
+      : searchStart + nextHeadingIndex;
+
+  return `${trimmedMarkdown.slice(0, insertAt).trimEnd()}\n\n${trimmedContent}\n${trimmedMarkdown.slice(insertAt).trimStart() ? `\n${trimmedMarkdown.slice(insertAt).trimStart()}` : ""}`;
 }
 
 export function createBlogStore(options: { blogDir?: string } = {}) {
@@ -126,6 +184,25 @@ export function createBlogStore(options: { blogDir?: string } = {}) {
     await writeFile(filePath, source.replace(input.oldText, replacement), "utf8");
   }
 
+  async function appendNoteToTopic(input: AppendNoteToTopicInput) {
+    const content = input.content.trim();
+
+    if (!content) {
+      throw new Error("Note content cannot be empty");
+    }
+
+    const date = validateDate(input.date ?? todayInSiteTimezone());
+    const filePath = fileForSlug(input.slug);
+    const parsed = matter(await readFile(filePath, "utf8"));
+    const nextContent = appendToDatedSection(parsed.content, date, content);
+    const next = matter.stringify(nextContent, {
+      ...parsed.data,
+      modDatetime: new Date(`${date}T00:00:00.000Z`),
+    });
+
+    await writeFile(filePath, next, "utf8");
+  }
+
   async function updateFrontmatter(input: UpdateFrontmatterInput) {
     const patch = FrontmatterPatchSchema.parse(input.patch);
     const filePath = fileForSlug(input.slug);
@@ -163,6 +240,7 @@ export function createBlogStore(options: { blogDir?: string } = {}) {
   }
 
   return {
+    appendNoteToTopic,
     appendRevision,
     createDraft,
     listPosts,

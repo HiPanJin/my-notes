@@ -3,9 +3,9 @@ import getSortedPosts from "@/utils/getSortedPosts";
 import { getPath } from "@/utils/getPath";
 
 export async function GET() {
-  const posts = getSortedPosts(await getCollection("blog")).map(post => ({
+  const notes = getSortedPosts(await getCollection("blog")).map(post => ({
     slug: post.id,
-    path: getPath(post.id, post.filePath),
+    path: getPath(post.id, post.filePath).replace(/^\/posts/, "/notes"),
     title: post.data.title,
     description: post.data.description,
     pubDatetime: post.data.pubDatetime.toISOString(),
@@ -14,7 +14,7 @@ export async function GET() {
     tags: post.data.tags,
   }));
 
-  return new Response(JSON.stringify({ posts }, null, 2), {
+  return new Response(JSON.stringify({ notes }, null, 2), {
     headers: { "content-type": "application/json; charset=utf-8" },
   });
 }

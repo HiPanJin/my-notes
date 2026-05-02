@@ -61,10 +61,46 @@ server.registerResource(
 );
 
 server.registerResource(
+  "all-notes",
+  "notes://all",
+  {
+    title: "All notes",
+    mimeType: "application/json",
+  },
+  async uri => ({
+    contents: [
+      {
+        uri: uri.href,
+        mimeType: "application/json",
+        text: JSON.stringify(await store.listPosts(), null, 2),
+      },
+    ],
+  })
+);
+
+server.registerResource(
   "post-by-slug",
   new ResourceTemplate("posts://slug/{slug}", { list: undefined }),
   {
     title: "Post by slug",
+    mimeType: "text/markdown",
+  },
+  async (uri, { slug }) => ({
+    contents: [
+      {
+        uri: uri.href,
+        mimeType: "text/markdown",
+        text: await store.readPost(String(slug)),
+      },
+    ],
+  })
+);
+
+server.registerResource(
+  "note-by-slug",
+  new ResourceTemplate("notes://slug/{slug}", { list: undefined }),
+  {
+    title: "Note by slug",
     mimeType: "text/markdown",
   },
   async (uri, { slug }) => ({
@@ -87,10 +123,30 @@ server.registerTool("list_posts", {
   ],
 }));
 
+server.registerTool("list_notes", {
+  description: "List living note metadata",
+  inputSchema: {},
+}, async () => ({
+  content: [
+    { type: "text", text: JSON.stringify(await store.listPosts(), null, 2) },
+  ],
+}));
+
 server.registerTool(
   "read_post",
   {
     description: "Read a Markdown blog post by slug",
+    inputSchema: { slug: z.string() },
+  },
+  async ({ slug }) => ({
+    content: [{ type: "text", text: await store.readPost(slug) }],
+  })
+);
+
+server.registerTool(
+  "read_note",
+  {
+    description: "Read a living topic note by slug",
     inputSchema: { slug: z.string() },
   },
   async ({ slug }) => ({
@@ -118,6 +174,26 @@ server.registerTool(
       },
     ],
   })
+);
+
+server.registerTool(
+  "append_note_to_topic",
+  {
+    description:
+      "Append a short Markdown note to a living topic page under a YYYY-MM-DD heading",
+    inputSchema: {
+      slug: z.string(),
+      content: z.string().min(1),
+      date: z
+        .string()
+        .regex(/^\d{4}-\d{2}-\d{2}$/)
+        .optional(),
+    },
+  },
+  async input => {
+    await store.appendNoteToTopic(input);
+    return { content: [{ type: "text", text: "Note appended." }] };
+  }
 );
 
 server.registerTool(
@@ -158,6 +234,37 @@ server.registerTool(
     await store.updateFrontmatter(input);
     return { content: [{ type: "text", text: "Frontmatter updated." }] };
   }
+);
+
+server.registerPrompt(
+  "append_topic_note",
+  {
+    description:
+      "Prepare a concise dated Markdown note to append to an existing topic",
+    argsSchema: {
+      slug: z.string(),
+      idea: z.string(),
+      date: z.string().optional(),
+    },
+  },
+  ({ slug, idea, date }) => ({
+    messages: [
+      {
+        role: "user",
+        content: {
+          type: "text",
+          text: [
+            `Prepare a short note for topic slug "${slug}".`,
+            date ? `Use date ${date}.` : "Use today's date if appending.",
+            "Keep it concise, natural, and suitable for a living notebook.",
+            "Return only Markdown content that can be passed to append_note_to_topic.",
+            "",
+            idea,
+          ].join("\n"),
+        },
+      },
+    ],
+  })
 );
 
 server.registerPrompt(

@@ -6,20 +6,20 @@ Build the first version as:
 
 **Paper manuscript visual design + Markdown revision syntax + local MCP content tools.**
 
-The site stays an Astro static blog. Posts remain Markdown files under
-`src/data/blog`. The new MCP layer runs locally and edits repository content
-through controlled tools instead of adding a hosted CMS or backend.
+The site stays an Astro static blog. Markdown files under `src/data/blog` now
+act as living topic notebooks: one durable page per category, updated over
+time. The new MCP layer runs locally and edits repository content through
+controlled tools instead of adding a hosted CMS or backend.
 
 ## Goals
 
 - Redesign the blog so it feels like a warm paper notebook or handwritten
   manuscript.
-- Keep the site focused on publishing essays, notes, and learning-in-public
-  writing.
+- Keep the site focused on short topic notes and learning-in-public writing.
 - Support visible revision marks: old text can be struck through, and revised
   text can appear directly underneath.
-- Add a local MCP server so AI tools can list posts, read posts, create drafts,
-  and append revision blocks.
+- Add a local MCP server so AI tools can list notes, read topic pages, append
+  dated updates, and revise existing text.
 - Preserve static deployment and the existing Astro content workflow.
 
 ## Non-Goals
@@ -59,7 +59,7 @@ serif document design toward a more personal handwritten writing surface.
 ### Layout
 
 - Home page starts as the notebook itself: author identity, short intro, and
-  recent writing.
+  living topic pages.
 - Article pages should read like manuscript pages with comfortable measure,
   margin notes for dates/tags, and restrained navigation.
 - Existing routes remain: home, posts, tags, archives, search, about.
@@ -120,6 +120,8 @@ Markdown files in `src/data/blog`.
 - `list_posts`: return post slugs, titles, dates, draft status, and tags.
 - `read_post`: return the raw Markdown for a selected post.
 - `create_draft`: create a new Markdown draft with frontmatter.
+- `append_note_to_topic`: add a short note under a dated section in an existing
+  topic notebook.
 - `append_revision`: append a revision block using strikethrough old text and
   replacement text below it.
 - `update_frontmatter`: update safe frontmatter fields such as title,

@@ -5,8 +5,9 @@
   .app-prose {
     @apply prose;
     font-family: var(--font-hand);
-    font-size: 1.08rem;
-    line-height: 1.85;
+    font-size: 1.14rem;
+    line-height: 1.84;
+    letter-spacing: 0;
 
     h1,
     h2,
@@ -18,8 +19,16 @@
       letter-spacing: 0;
     }
 
+    h2 {
+      @apply mt-10 text-3xl leading-tight text-accent;
+    }
+
     h3 {
-      @apply not-italic;
+      @apply text-2xl leading-tight not-italic;
+    }
+
+    p {
+      @apply my-5;
     }
 
     p,
@@ -45,11 +54,11 @@
     }
 
     hr {
-      @apply border-border;
+      @apply my-8 border-dashed border-border;
     }
 
     img {
-      @apply mx-auto border border-border;
+      @apply mx-auto rounded-[2px] border border-border;
     }
 
     figcaption {
@@ -72,10 +81,11 @@
     }
 
     code {
-      @apply rounded bg-muted/75 p-1 break-words text-foreground before:content-none after:content-none;
+      @apply rounded-[3px] border border-border/70 bg-paper-deep/90 px-1.5 py-1 break-words text-foreground before:content-none after:content-none;
       font-family:
         ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
         "Liberation Mono", "Courier New", monospace;
+      font-size: 0.9em;
     }
 
     .astro-code code {
@@ -83,7 +93,8 @@
     }
 
     blockquote {
-      @apply border-s-accent/80 bg-paper-deep/40 px-4 py-2 break-words opacity-90;
+      @apply my-6 border-s-2 border-s-accent/70 bg-paper-deep/35 px-4 py-2 break-words opacity-95;
+      font-style: normal;
     }
 
     del {
@@ -109,12 +120,13 @@
 
     pre {
       @apply focus-visible:border-transparent focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-dashed;
+      border-radius: 3px;
     }
   }
 
   /* ===== Code Blocks & Syntax Highlighting ===== */
   .astro-code {
-    @apply flex border bg-paper-deep/70 text-(--shiki-light) outline-border [&_span]:text-(--shiki-light);
+    @apply flex border border-border/80 bg-paper-deep/85 text-(--shiki-light) outline-border [&_span]:text-(--shiki-light);
   }
 
   html[data-theme="dark"] .astro-code {

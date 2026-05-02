@@ -31,9 +31,12 @@ const months = [
 ];
 ---
 
-<Layout title={`Archives | ${SITE.title}`}>
+<Layout title={`Timeline | ${SITE.title}`}>
   <Header />
-  <Main pageTitle="Archives" pageDesc="All the articles I've archived.">
+  <Main
+    pageTitle="Timeline"
+    pageDesc="A chronological view of when each living note started."
+  >
     {
       Object.entries(
         getPostsByGroupCondition(posts, post =>
@@ -70,7 +73,7 @@ const months = [
                           )
                       )
                       .map(data => (
-                        <Card {...data} />
+                        <Card basePath="/notes" {...data} />
                       ))}
                   </ul>
                 </div>

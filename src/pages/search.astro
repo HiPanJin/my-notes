@@ -11,7 +11,7 @@ const backUrl = SITE.showBackButton ? `${Astro.url.pathname}` : "/";
 
 <Layout title={`Search | ${SITE.title}`}>
   <Header />
-  <Main pageTitle="Search" pageDesc="Search any article ...">
+  <Main pageTitle="Search" pageDesc="Search the living notes ...">
     <div id="pagefind-search" transition:persist data-backurl={backUrl}></div>
   </Main>
   <Footer />
@@ -91,7 +91,7 @@ const backUrl = SITE.showBackButton ? `${Astro.url.pathname}` : "/";
 
 <style is:global>
   #pagefind-search {
-    --pagefind-ui-font: var(--font-mono);
+    --pagefind-ui-font: var(--font-ui);
     --pagefind-ui-text: var(--foreground);
     --pagefind-ui-background: var(--background);
     --pagefind-ui-border: var(--border);
@@ -133,7 +133,7 @@ const backUrl = SITE.showBackButton ? `${Astro.url.pathname}` : "/";
     }
 
     .pagefind-ui__result-nested .pagefind-ui__result-link:before {
-      font-family: system-ui;
+      font-family: var(--font-ui);
     }
   }
 </style>
